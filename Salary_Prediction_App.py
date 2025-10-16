@@ -2,18 +2,23 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import os
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 from sklearn.pipeline import make_pipeline
 from xgboost import XGBRegressor
 
-
 st.title("Employee Salary Prediction App")
 
-# load The dataset , model , scalar , encoder
+# Load dataset and model safely for Streamlit Cloud
+current_dir = os.path.dirname(__file__)
+dataset_path = os.path.join(current_dir, "Salary_Data.csv")
+model_path = os.path.join(current_dir, "salary_prd_model.pkl")
 
-dataset = pd.read_csv('Salary_Data.csv')
-model = joblib.load("salary_prd_model.pkl")
+st.write("Loading data and model...")
+dataset = pd.read_csv(dataset_path)
+model = joblib.load(model_path)
+st.success("Model loaded successfully!")
 
 
 # User Input
